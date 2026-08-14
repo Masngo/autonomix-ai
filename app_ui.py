@@ -15,76 +15,64 @@ st.set_page_config(
 )
 
 # -----------------------------------------------------------------------------
-# HIGH-VISIBILITY ENTERPRISE DARK CSS OVERRIDES
+# HIGH-VISIBILITY CONTRAST CSS OVERRIDES (FIXES WHITE-ON-WHITE & DARK-ON-DARK)
 # -----------------------------------------------------------------------------
 st.markdown("""
     <style>
-    /* Main Canvas Background */
+    /* Force main app & sidebar background consistency */
     .stApp, [data-testid="stAppViewContainer"] {
         background-color: #0B0F19 !important;
         color: #F8FAFC !important;
     }
-
-    /* Sidebar Background & Text */
     [data-testid="stSidebar"] {
         background-color: #111827 !important;
         border-right: 1px solid #1F2937 !important;
     }
-    [data-testid="stSidebar"] * {
-        color: #E2E8F0 !important;
+    
+    /* Global Text & Labels Override to Crisp White/Slate */
+    .stMarkdown, label, p, h1, h2, h3, h4, h5, h6, span {
+        color: #F8FAFC !important;
+    }
+    .sub-header {
+        font-size: 1.05rem;
+        color: #94A3B8 !important;
+        margin-bottom: 20px;
     }
 
-    /* Headers & Text Formatting */
+    /* Main Header Gradient */
     .main-header {
-        font-size: 2.6rem;
+        font-size: 2.5rem;
         font-weight: 800;
         background: linear-gradient(135deg, #A855F7 0%, #38BDF8 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         margin-bottom: 2px;
-        letter-spacing: -0.02em;
-    }
-    .sub-header {
-        font-size: 1.05rem;
-        color: #94A3B8 !important;
-        margin-bottom: 25px;
     }
 
-    /* Force ALL Labels and Headers to White/Crisp Grey */
-    label, p, span, h1, h2, h3, h4, h5, h6, .stMarkdown {
-        color: #F8FAFC !important;
-    }
-
-    /* High Visibility Input Fields & Text Areas */
-    textarea, input, select, [data-baseweb="select"] {
+    /* High-Contrast Inputs & Dropdowns */
+    div[data-baseweb="select"] > div {
         background-color: #1E293B !important;
         color: #F8FAFC !important;
         border: 1px solid #334155 !important;
         border-radius: 8px !important;
     }
-    
-    /* Text Area Editing Font & High Contrast Text */
-    div[data-baseweb="textarea"] > textarea {
+
+    /* High-Contrast Code/JSON Text Area */
+    div[data-baseweb="textarea"] textarea {
         background-color: #0F172A !important;
         color: #38BDF8 !important;
-        font-family: 'Courier New', Courier, monospace !important;
-        font-size: 0.95rem !important;
         border: 1px solid #334155 !important;
+        font-family: 'Courier New', monospace !important;
+        font-size: 0.95rem !important;
+        border-radius: 8px !important;
     }
 
-    /* Selectbox Dropdown Box Styling */
-    div[data-baseweb="select"] > div {
-        background-color: #1E293B !important;
-        color: #F8FAFC !important;
-        border-color: #334155 !important;
-    }
-    
-    /* Metrics Styling */
+    /* Metrics Container Cards */
     [data-testid="stMetric"] {
-        background-color: #1E293B;
-        border: 1px solid #334155;
-        padding: 12px 16px;
-        border-radius: 10px;
+        background-color: #1E293B !important;
+        border: 1px solid #334155 !important;
+        border-radius: 10px !important;
+        padding: 12px 16px !important;
     }
     [data-testid="stMetricValue"] {
         color: #38BDF8 !important;
@@ -96,7 +84,7 @@ st.markdown("""
         font-weight: 600 !important;
     }
 
-    /* Action Button Styling */
+    /* Glowing Action Button */
     div.stButton > button:first-child {
         background: linear-gradient(135deg, #6366F1 0%, #0284C7 100%) !important;
         color: #FFFFFF !important;
@@ -105,27 +93,25 @@ st.markdown("""
         padding: 0.8rem 1.6rem !important;
         border-radius: 8px !important;
         box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4) !important;
-        transition: all 0.2s ease-in-out !important;
     }
     div.stButton > button:first-child:hover {
         background: linear-gradient(135deg, #4F46E5 0%, #0369A1 100%) !important;
         box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6) !important;
-        transform: translateY(-1px);
     }
 
-    /* Custom Status Badges */
+    /* Custom Live Status Pill */
     .badge-live {
         background-color: #064E3B;
         color: #34D399 !important;
         font-size: 0.8rem;
         font-weight: 700;
-        padding: 5px 12px;
+        padding: 4px 12px;
         border-radius: 20px;
         border: 1px solid #059669;
         display: inline-block;
     }
 
-    /* Tab Navbar Customization */
+    /* Navigation Tabs */
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
         background-color: #1E293B;
@@ -170,7 +156,7 @@ with st.sidebar:
     stripe_integration = st.toggle("Stripe Webhook Gateway", value=True)
 
     st.divider()
-    st.caption("🏆 Hackathon Edition | v2.4-pro")
+    st.caption("🏆 Hackathon Edition | v2.5-pro")
 
 # -----------------------------------------------------------------------------
 # MAIN DASHBOARD HEADER
@@ -178,7 +164,7 @@ with st.sidebar:
 st.markdown('<div class="main-header">Autonomix AI Operations Center</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub-header">Autonomous multi-agent backend engine running on Google Cloud Run & Vertex AI</div>', unsafe_allow_html=True)
 
-# Key Performance Indicators
+# Top Key Metrics
 m1, m2, m3, m4, m5 = st.columns(5)
 with m1:
     st.metric("Active Mesh", "4 Agents", "Sync Active")
@@ -194,7 +180,7 @@ with m5:
 st.divider()
 
 # -----------------------------------------------------------------------------
-# TABBED WORKSPACE
+# WORKSPACE TABS
 # -----------------------------------------------------------------------------
 tab_exec, tab_graph, tab_telemetry, tab_costs = st.tabs([
     "🚀 Live Agent Orchestration", 
