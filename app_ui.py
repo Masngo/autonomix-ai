@@ -5,7 +5,7 @@ import pandas as pd
 from datetime import datetime
 
 # -----------------------------------------------------------------------------
-# PAGE CONFIGURATION & ENTERPRISE DARK-THEME CSS
+# PAGE CONFIGURATION
 # -----------------------------------------------------------------------------
 st.set_page_config(
     page_title="Autonomix AI | Command Center",
@@ -14,108 +14,135 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom High-Contrast Modern Palette CSS
+# -----------------------------------------------------------------------------
+# HIGH-VISIBILITY ENTERPRISE DARK CSS OVERRIDES
+# -----------------------------------------------------------------------------
 st.markdown("""
     <style>
-    /* Dark Slate Canvas */
-    .stApp {
-        background-color: #070A12;
-        color: #F8FAFC;
+    /* Main Canvas Background */
+    .stApp, [data-testid="stAppViewContainer"] {
+        background-color: #0B0F19 !important;
+        color: #F8FAFC !important;
     }
-    
-    /* Header Gradient Text */
+
+    /* Sidebar Background & Text */
+    [data-testid="stSidebar"] {
+        background-color: #111827 !important;
+        border-right: 1px solid #1F2937 !important;
+    }
+    [data-testid="stSidebar"] * {
+        color: #E2E8F0 !important;
+    }
+
+    /* Headers & Text Formatting */
     .main-header {
         font-size: 2.6rem;
         font-weight: 800;
-        background: linear-gradient(135deg, #A855F7 0%, #06B6D4 100%);
+        background: linear-gradient(135deg, #A855F7 0%, #38BDF8 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         margin-bottom: 2px;
-        letter-spacing: -0.03em;
+        letter-spacing: -0.02em;
     }
     .sub-header {
         font-size: 1.05rem;
-        color: #94A3B8;
+        color: #94A3B8 !important;
         margin-bottom: 25px;
     }
 
-    /* Custom Glassmorphism Containers */
-    .custom-card {
-        background: #111827;
-        border: 1px solid #1F2937;
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+    /* Force ALL Labels and Headers to White/Crisp Grey */
+    label, p, span, h1, h2, h3, h4, h5, h6, .stMarkdown {
+        color: #F8FAFC !important;
     }
 
-    /* Metric Boxes Highlight */
+    /* High Visibility Input Fields & Text Areas */
+    textarea, input, select, [data-baseweb="select"] {
+        background-color: #1E293B !important;
+        color: #F8FAFC !important;
+        border: 1px solid #334155 !important;
+        border-radius: 8px !important;
+    }
+    
+    /* Text Area Editing Font & High Contrast Text */
+    div[data-baseweb="textarea"] > textarea {
+        background-color: #0F172A !important;
+        color: #38BDF8 !important;
+        font-family: 'Courier New', Courier, monospace !important;
+        font-size: 0.95rem !important;
+        border: 1px solid #334155 !important;
+    }
+
+    /* Selectbox Dropdown Box Styling */
+    div[data-baseweb="select"] > div {
+        background-color: #1E293B !important;
+        color: #F8FAFC !important;
+        border-color: #334155 !important;
+    }
+    
+    /* Metrics Styling */
+    [data-testid="stMetric"] {
+        background-color: #1E293B;
+        border: 1px solid #334155;
+        padding: 12px 16px;
+        border-radius: 10px;
+    }
     [data-testid="stMetricValue"] {
         color: #38BDF8 !important;
-        font-weight: 800;
-        font-size: 1.9rem !important;
+        font-weight: 800 !important;
+        font-size: 1.8rem !important;
     }
     [data-testid="stMetricLabel"] {
         color: #94A3B8 !important;
-        font-weight: 600;
-        font-size: 0.85rem !important;
+        font-weight: 600 !important;
+    }
+
+    /* Action Button Styling */
+    div.stButton > button:first-child {
+        background: linear-gradient(135deg, #6366F1 0%, #0284C7 100%) !important;
+        color: #FFFFFF !important;
+        font-weight: 700 !important;
+        border: none !important;
+        padding: 0.8rem 1.6rem !important;
+        border-radius: 8px !important;
+        box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4) !important;
+        transition: all 0.2s ease-in-out !important;
+    }
+    div.stButton > button:first-child:hover {
+        background: linear-gradient(135deg, #4F46E5 0%, #0369A1 100%) !important;
+        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6) !important;
+        transform: translateY(-1px);
     }
 
     /* Custom Status Badges */
     .badge-live {
-        background-color: rgba(16, 185, 129, 0.15);
-        color: #10B981;
-        font-size: 0.75rem;
+        background-color: #064E3B;
+        color: #34D399 !important;
+        font-size: 0.8rem;
         font-weight: 700;
-        padding: 4px 12px;
+        padding: 5px 12px;
         border-radius: 20px;
-        border: 1px solid rgba(16, 185, 129, 0.4);
+        border: 1px solid #059669;
         display: inline-block;
-    }
-
-    /* Primary Gradient Button */
-    div.stButton > button:first-child {
-        background: linear-gradient(135deg, #7C3AED 0%, #2563EB 50%, #0284C7 100%);
-        color: #FFFFFF;
-        font-weight: 700;
-        border: none;
-        padding: 0.8rem 1.6rem;
-        border-radius: 10px;
-        box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
-        transition: all 0.3s ease;
-    }
-    div.stButton > button:first-child:hover {
-        background: linear-gradient(135deg, #6D28D9 0%, #1D4ED8 50%, #0369A1 100%);
-        box-shadow: 0 6px 25px rgba(124, 58, 237, 0.7);
-        transform: translateY(-2px);
     }
 
     /* Tab Navbar Customization */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 10px;
-        background-color: #0F172A;
-        padding: 8px;
-        border-radius: 12px;
-        border: 1px solid #1E293B;
+        gap: 8px;
+        background-color: #1E293B;
+        padding: 6px;
+        border-radius: 10px;
+        border: 1px solid #334155;
     }
     .stTabs [data-baseweb="tab"] {
-        height: 48px;
-        border-radius: 8px;
-        color: #94A3B8;
+        height: 44px;
+        border-radius: 6px;
+        color: #94A3B8 !important;
         font-weight: 600;
-        padding: 0 16px;
     }
     .stTabs [aria-selected="true"] {
-        background-color: #1E293B !important;
-        color: #38BDF8 !important;
-        border: 1px solid #334155 !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Expanders & Code Boxes */
-    .stExpander {
         background-color: #0F172A !important;
-        border: 1px solid #1E293B !important;
-        border-radius: 10px !important;
+        color: #38BDF8 !important;
+        border: 1px solid #38BDF8 !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -143,7 +170,7 @@ with st.sidebar:
     stripe_integration = st.toggle("Stripe Webhook Gateway", value=True)
 
     st.divider()
-    st.caption("🏆 Hackathon Edition | v2.3-pro")
+    st.caption("🏆 Hackathon Edition | v2.4-pro")
 
 # -----------------------------------------------------------------------------
 # MAIN DASHBOARD HEADER
@@ -158,11 +185,11 @@ with m1:
 with m2:
     st.metric("Total Runs", "1,842", "+28% today")
 with m3:
-    st.metric("Avg Latency", "1.42s", "Flash/Pro Optimized")
+    st.metric("Avg Latency", "1.42s", "Flash/Pro Fast")
 with m4:
-    st.metric("Accuracy Rate", "99.8%", "Zero Schema Drift")
+    st.metric("Accuracy Rate", "99.8%", "Zero Drift")
 with m5:
-    st.metric("Stripe Processed", "$18,920", "+$420 last hr")
+    st.metric("Stripe Processed", "$18,920", "+$420/hr")
 
 st.divider()
 
