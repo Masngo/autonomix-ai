@@ -15,7 +15,7 @@ st.set_page_config(
 )
 
 # -----------------------------------------------------------------------------
-# HIGH-VISIBILITY ENTERPRISE CSS
+# HIGH-VISIBILITY ENTERPRISE CSS (WITH GLOW & POLISHED ACCENTS)
 # -----------------------------------------------------------------------------
 st.markdown("""
     <style>
@@ -57,11 +57,14 @@ st.markdown("""
         font-size: 0.95rem !important;
         border-radius: 8px !important;
     }
+
+    /* Polished Metric Container Cards with Subtle Glowing Border */
     [data-testid="stMetric"] {
         background-color: #1E293B !important;
-        border: 1px solid #334155 !important;
+        border: 1px solid rgba(56, 189, 248, 0.25) !important;
         border-radius: 10px !important;
         padding: 12px 16px !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
     }
     [data-testid="stMetricValue"] {
         color: #38BDF8 !important;
@@ -72,6 +75,8 @@ st.markdown("""
         color: #94A3B8 !important;
         font-weight: 600 !important;
     }
+
+    /* Glowing Primary Action Button */
     div.stButton > button:first-child {
         background: linear-gradient(135deg, #6366F1 0%, #0284C7 100%) !important;
         color: #FFFFFF !important;
@@ -79,12 +84,15 @@ st.markdown("""
         border: none !important;
         padding: 0.8rem 1.6rem !important;
         border-radius: 8px !important;
-        box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4) !important;
+        box-shadow: 0 0 15px rgba(56, 189, 248, 0.35) !important;
+        transition: all 0.3s ease-in-out !important;
     }
     div.stButton > button:first-child:hover {
-        background: linear-gradient(135deg, #4F46E5 0%, #0369A1 100%) !important;
-        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6) !important;
+        box-shadow: 0 0 25px rgba(56, 189, 248, 0.65) !important;
+        transform: translateY(-2px);
     }
+
+    /* Custom Live Status Badge */
     .badge-live {
         background-color: #064E3B;
         color: #34D399 !important;
@@ -95,6 +103,8 @@ st.markdown("""
         border: 1px solid #059669;
         display: inline-block;
     }
+
+    /* Tab Navigation Layout */
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
         background-color: #1E293B;
@@ -117,7 +127,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # -----------------------------------------------------------------------------
-# SIDEBAR
+# SIDEBAR CONTROL PANEL
 # -----------------------------------------------------------------------------
 with st.sidebar:
     st.markdown("## ⚡ **Autonomix AI**")
@@ -147,7 +157,7 @@ with st.sidebar:
 st.markdown('<div class="main-header">Autonomix AI Operations Center</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub-header">Self-orchestrating multi-agent enterprise execution engine deployed on Google Cloud Run & Vertex AI</div>', unsafe_allow_html=True)
 
-# Top KPIs
+# Key Performance Indicators
 m1, m2, m3, m4, m5 = st.columns(5)
 with m1:
     st.metric("Active Mesh", "4 Agents", "Sync Active")
@@ -173,7 +183,7 @@ tab_exec, tab_graph, tab_telemetry, tab_costs = st.tabs([
 ])
 
 # -----------------------------------------------------------------------------
-# TAB 1: ORCHESTRATION
+# TAB 1: LIVE AGENT ORCHESTRATION
 # -----------------------------------------------------------------------------
 with tab_exec:
     col_left, col_right = st.columns([1, 1])
@@ -277,37 +287,50 @@ with tab_exec:
             st.info("👈 Click **Trigger Multi-Agent Orchestration** to launch the autonomous agent mesh.")
 
 # -----------------------------------------------------------------------------
-# TAB 2: TOPOLOGY
+# TAB 2: TOPOLOGY (GRAPHVIZ INTERACTIVE GRAPH)
 # -----------------------------------------------------------------------------
 with tab_graph:
-    st.markdown("### 🕸️ Multi-Agent Interaction Mesh")
-    st.markdown("""
-    ```
-    ┌─────────────────────────────────┐
-    │  Raw Customer Payload (JSON)    │
-    └─────────────────────────────────┘
-                     │
-                     ▼
-    ┌─────────────────────────────────┐      Model: Gemini 2.5 Flash
-    │  1. Ingestion & Sourcing Agent  │ ───► Task: Schema Validation & PII Sanitization
-    └─────────────────────────────────┘      Latency: ~110ms
-                     │
-                     ▼
-    ┌─────────────────────────────────┐      Model: Gemini 2.5 Pro via Vertex AI
-    │  2. Strategy & Reasoning Agent  │ ───► Task: Infrastructure Planning & Budgeting
-    └─────────────────────────────────┘      Latency: ~680ms
-                     │
-                     ▼
-    ┌─────────────────────────────────┐      Model: Gemini 2.5 Flash
-    │  3. Execution & Packaging Agent │ ───► Task: Deliverable Generation & Formatting
-    └─────────────────────────────────┘      Latency: ~820ms
-                     │
-                     ▼
-    ┌─────────────────────────────────┐      Model: Gemini 2.5 Flash
-    │  4. Compliance & Audit Agent    │ ───► Task: Safety Guardrails & Stripe Webhook
-    └─────────────────────────────────┘      Latency: ~140ms
-    ```
-    """)
+    st.markdown("### 🕸️ Multi-Agent Direct Interaction Graph")
+    st.caption("Visual representation of the agent execution mesh and model routing topology.")
+
+    st.graphviz_chart('''
+    digraph {
+        graph [bgcolor="transparent", rankdir="TB"]
+        node [shape="rect", style="filled,rounded", fontname="Helvetica", fontcolor="#FFFFFF", penwidth=2]
+        edge [fontname="Helvetica", fontsize=10, fontcolor="#38BDF8", color="#38BDF8", penwidth=2]
+
+        Payload [label="📥 Raw Inbound Payload\n(JSON Specification)", fillcolor="#1E293B", color="#334155"]
+        Agent1  [label="1️⃣ Ingestion & Sourcing Agent\nModel: Gemini 2.5 Flash\nTask: Schema & PII Audit", fillcolor="#0F172A", color="#38BDF8"]
+        Agent2  [label="2️⃣ Strategy & Reasoning Agent\nModel: Gemini 2.5 Pro (Vertex AI)\nTask: Architecture & SLA Logic", fillcolor="#1E1B4B", color="#A855F7"]
+        Agent3  [label="3️⃣ Execution & Packaging Agent\nModel: Gemini 2.5 Flash\nTask: Deliverable Formatting", fillcolor="#0F172A", color="#38BDF8"]
+        Agent4  [label="4️⃣ Compliance & Billing Agent\nModel: Gemini 2.5 Flash\nTask: Policy & Stripe Webhook", fillcolor="#064E3B", color="#34D399"]
+        Output  [label="⚡ Verified Enterprise Output\n+ Stripe Billing Webhook", fillcolor="#1E293B", color="#334155"]
+
+        Payload -> Agent1 [label=" Parse Request"]
+        Agent1 -> Agent2  [label=" Clean Schema (~110ms)"]
+        Agent2 -> Agent3  [label=" Execution Strategy (~680ms)"]
+        Agent3 -> Agent4  [label=" SLA Contract (~820ms)"]
+        Agent4 -> Output  [label=" Final Payload (~140ms)"]
+    }
+    ''')
+
+    st.divider()
+
+    st.markdown("### 🔍 System Instruction & Prompt Inspection")
+    with st.expander("Inspector: Sourcing & Ingestion Agent System Prompt"):
+        st.code("""
+System Instruction:
+You are an expert Ingestion Agent. Parse the inbound raw payload, clean non-standard characters, 
+and extract target operational fields into a strictly validated JSON schema. 
+If requirements are missing, flag them in the schema. Do not generate markdown explanations.
+        """, language="text")
+
+    with st.expander("Inspector: Strategy & Reasoning Agent System Prompt"):
+        st.code("""
+System Instruction:
+You are a Lead Cloud Architect Agent. Evaluate client requirements against Google Cloud Run capabilities,
+Vertex AI quota limits, and budget caps. Formulate a structured step-by-step execution pathway.
+        """, language="text")
 
 # -----------------------------------------------------------------------------
 # TAB 3: TELEMETRY
