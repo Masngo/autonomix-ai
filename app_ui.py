@@ -5,44 +5,117 @@ import pandas as pd
 from datetime import datetime
 
 # -----------------------------------------------------------------------------
-# PAGE CONFIGURATION & THEMING
+# PAGE CONFIGURATION & ENTERPRISE DARK-THEME CSS
 # -----------------------------------------------------------------------------
 st.set_page_config(
-    page_title="Autonomix AI | Autonomous Operations Center",
+    page_title="Autonomix AI | Command Center",
     page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom High-Tech CSS Styling
+# Custom High-Contrast Modern Palette CSS
 st.markdown("""
     <style>
+    /* Dark Slate Canvas */
+    .stApp {
+        background-color: #070A12;
+        color: #F8FAFC;
+    }
+    
+    /* Header Gradient Text */
     .main-header {
-        font-size: 2.5rem;
+        font-size: 2.6rem;
         font-weight: 800;
-        background: -webkit-linear-gradient(45deg, #4F46E5, #06B6D4);
+        background: linear-gradient(135deg, #A855F7 0%, #06B6D4 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        margin-bottom: 0px;
+        margin-bottom: 2px;
+        letter-spacing: -0.03em;
     }
     .sub-header {
         font-size: 1.05rem;
-        color: #64748B;
+        color: #94A3B8;
         margin-bottom: 25px;
     }
-    .agent-card {
-        background-color: #0F172A;
-        border: 1px solid #1E293B;
-        border-radius: 10px;
-        padding: 16px;
-        color: #F8FAFC;
-        margin-bottom: 12px;
+
+    /* Custom Glassmorphism Containers */
+    .custom-card {
+        background: #111827;
+        border: 1px solid #1F2937;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
     }
-    .metric-card {
-        background: #1E293B;
-        padding: 15px;
+
+    /* Metric Boxes Highlight */
+    [data-testid="stMetricValue"] {
+        color: #38BDF8 !important;
+        font-weight: 800;
+        font-size: 1.9rem !important;
+    }
+    [data-testid="stMetricLabel"] {
+        color: #94A3B8 !important;
+        font-weight: 600;
+        font-size: 0.85rem !important;
+    }
+
+    /* Custom Status Badges */
+    .badge-live {
+        background-color: rgba(16, 185, 129, 0.15);
+        color: #10B981;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 4px 12px;
+        border-radius: 20px;
+        border: 1px solid rgba(16, 185, 129, 0.4);
+        display: inline-block;
+    }
+
+    /* Primary Gradient Button */
+    div.stButton > button:first-child {
+        background: linear-gradient(135deg, #7C3AED 0%, #2563EB 50%, #0284C7 100%);
+        color: #FFFFFF;
+        font-weight: 700;
+        border: none;
+        padding: 0.8rem 1.6rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
+        transition: all 0.3s ease;
+    }
+    div.stButton > button:first-child:hover {
+        background: linear-gradient(135deg, #6D28D9 0%, #1D4ED8 50%, #0369A1 100%);
+        box-shadow: 0 6px 25px rgba(124, 58, 237, 0.7);
+        transform: translateY(-2px);
+    }
+
+    /* Tab Navbar Customization */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 10px;
+        background-color: #0F172A;
+        padding: 8px;
+        border-radius: 12px;
+        border: 1px solid #1E293B;
+    }
+    .stTabs [data-baseweb="tab"] {
+        height: 48px;
         border-radius: 8px;
-        border-left: 4px solid #3B82F6;
+        color: #94A3B8;
+        font-weight: 600;
+        padding: 0 16px;
+    }
+    .stTabs [aria-selected="true"] {
+        background-color: #1E293B !important;
+        color: #38BDF8 !important;
+        border: 1px solid #334155 !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Expanders & Code Boxes */
+    .stExpander {
+        background-color: #0F172A !important;
+        border: 1px solid #1E293B !important;
+        border-radius: 10px !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -52,42 +125,42 @@ st.markdown("""
 # -----------------------------------------------------------------------------
 with st.sidebar:
     st.markdown("## ⚡ **Autonomix AI**")
-    st.caption("Autonomous Agent Control Plane")
+    st.caption("Autonomous Agent Mesh")
+    st.markdown('<span class="badge-live">🟢 GCP Cloud Run: ONLINE</span>', unsafe_allow_html=True)
     st.divider()
 
-    st.markdown("### 🎛️ Agent Mesh Engine")
-    execution_mode = st.radio("Execution Mode", ["Live Gemini API Pipeline", "Simulated Telemetry Stream"], index=0)
+    st.markdown("### 🎛️ Agent Execution Engine")
+    execution_mode = st.radio("Execution Pipeline", ["Live Gemini API Pipeline", "Simulated Telemetry Stream"], index=0)
     
     st.markdown("### 🤖 Model Orchestration")
-    model_ingest = st.selectbox("Ingestion & Audit", ["gemini-2.5-flash"], index=0)
+    model_ingest = st.selectbox("Ingestion & Audit Engine", ["gemini-2.5-flash"], index=0)
     model_reasoning = st.selectbox("Reasoning Engine", ["gemini-2.5-pro"], index=0)
 
-    st.markdown("### ☁️ Infrastructure & Guardrails")
+    st.markdown("### ☁️ Infrastructure & Webhooks")
     cloud_region = st.selectbox("GCP Region", ["us-central1 (Iowa)", "europe-west1 (Belgium)"])
-    strict_schema = st.toggle("Enforce JSON Schema Audit", value=True)
+    strict_schema = st.toggle("Enforce Strict Schema Audit", value=True)
     firestore_logging = st.toggle("Cloud Firestore Logging", value=True)
     stripe_integration = st.toggle("Stripe Webhook Gateway", value=True)
 
     st.divider()
-    st.caption("🏆 Hackathon Edition | v2.0-pro")
-    st.caption("🟢 GCP Cloud Run: `ACTIVE`")
+    st.caption("🏆 Hackathon Edition | v2.3-pro")
 
 # -----------------------------------------------------------------------------
 # MAIN DASHBOARD HEADER
 # -----------------------------------------------------------------------------
-st.markdown('<div class="main-header">Autonomix AI: Operations Command Center</div>', unsafe_allow_html=True)
-st.markdown('<div class="sub-header">Self-orchestrating, multi-agent enterprise backend running on Google Cloud & Vertex AI</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-header">Autonomix AI Operations Center</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub-header">Autonomous multi-agent backend engine running on Google Cloud Run & Vertex AI</div>', unsafe_allow_html=True)
 
-# Metric Summary Bar
+# Key Performance Indicators
 m1, m2, m3, m4, m5 = st.columns(5)
 with m1:
-    st.metric("Agent Count", "4 Agents", "Active Mesh")
+    st.metric("Active Mesh", "4 Agents", "Sync Active")
 with m2:
-    st.metric("Total Executions", "1,842", "+28% today")
+    st.metric("Total Runs", "1,842", "+28% today")
 with m3:
     st.metric("Avg Latency", "1.42s", "Flash/Pro Optimized")
 with m4:
-    st.metric("Accuracy Pass", "99.8%", "Zero Schema Drift")
+    st.metric("Accuracy Rate", "99.8%", "Zero Schema Drift")
 with m5:
     st.metric("Stripe Processed", "$18,920", "+$420 last hr")
 
@@ -98,8 +171,8 @@ st.divider()
 # -----------------------------------------------------------------------------
 tab_exec, tab_graph, tab_telemetry, tab_costs = st.tabs([
     "🚀 Live Agent Orchestration", 
-    "🕸️ Agent Topology & Prompt Inspection", 
-    "📊 Cloud Observability & Audit Logs", 
+    "🕸️ Agent Topology & Prompts", 
+    "📊 Cloud Observability & Logs", 
     "💰 Unit Economics & GCP Costs"
 ])
 
@@ -111,10 +184,10 @@ with tab_exec:
 
     with col_left:
         st.markdown("### 📥 Inbound Payload Configurator")
-        st.caption("Select a business scenario or supply raw operational requirements.")
+        st.caption("Select an enterprise scenario or supply raw operational requirements.")
 
         scenario = st.selectbox(
-            "Select Enterprise Scenario Preset:",
+            "Select Scenario Preset:",
             [
                 "Custom SaaS SLA & Enterprise Onboarding",
                 "Automated Financial Compliance Audit",
@@ -148,12 +221,12 @@ with tab_exec:
             }
 
         input_text = st.text_area(
-            "Raw Payload Payload (JSON):",
+            "Raw Payload Input (JSON):",
             value=json.dumps(payload_data, indent=2),
             height=280
         )
 
-        run_btn = st.button("⚡ Execute Multi-Agent Workflow", type="primary", use_container_width=True)
+        run_btn = st.button("⚡ Trigger Multi-Agent Orchestration", type="primary", use_container_width=True)
 
     with col_right:
         st.markdown("### 🤖 Live Multi-Agent Pipeline Execution")
@@ -205,10 +278,10 @@ with tab_exec:
             st.balloons()
             st.success("🎉 Workflow Executed Across 4 Autonomous Agents with Zero Human Intervention!")
         else:
-            st.info("👈 Click **Execute Multi-Agent Workflow** to run the live autonomous pipeline.")
+            st.info("👈 Click **Trigger Multi-Agent Orchestration** to test the live autonomous execution stream.")
 
 # -----------------------------------------------------------------------------
-# TAB 2: AGENT TOPOLOGY & PROMPT INSPECTION
+# TAB 2: AGENT TOPOLOGY & PROMPTS
 # -----------------------------------------------------------------------------
 with tab_graph:
     st.markdown("### 🕸️ Multi-Agent Interaction Topology")
