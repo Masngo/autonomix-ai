@@ -2,6 +2,7 @@ import streamlit as st
 import time
 import json
 import pandas as pd
+import numpy as np
 from datetime import datetime
 
 # -----------------------------------------------------------------------------
@@ -15,7 +16,7 @@ st.set_page_config(
 )
 
 # -----------------------------------------------------------------------------
-# HIGH-VISIBILITY ENTERPRISE CSS (WITH GLOW & POLISHED ACCENTS)
+# HIGH-VISIBILITY ENTERPRISE CSS
 # -----------------------------------------------------------------------------
 st.markdown("""
     <style>
@@ -183,7 +184,7 @@ tab_exec, tab_graph, tab_telemetry, tab_costs = st.tabs([
 ])
 
 # -----------------------------------------------------------------------------
-# TAB 1: LIVE AGENT ORCHESTRATION
+# TAB 1: LIVE AGENT ORCHESTRATION + LINE GRAPH
 # -----------------------------------------------------------------------------
 with tab_exec:
     col_left, col_right = st.columns([1, 1])
@@ -285,6 +286,24 @@ with tab_exec:
             st.success("🎉 Multi-agent workflow executed successfully across Google Cloud Run!")
         else:
             st.info("👈 Click **Trigger Multi-Agent Orchestration** to launch the autonomous agent mesh.")
+
+    # -------------------------------------------------------------------------
+    # LINE GRAPH SECTION (REAL-TIME LATENCY & TOKEN THROUGHPUT STREAM)
+    # -------------------------------------------------------------------------
+    st.divider()
+    st.markdown("### 📈 Live Execution Latency & Token Throughput Stream")
+    st.caption("Real-time telemetry line graph tracking response times (ms) and tokens processed across execution cycles.")
+
+    # Generating line graph time-series data
+    time_series_data = pd.DataFrame({
+        "Execution Cycle": [f"Run {i}" for i in range(1, 11)],
+        "Ingestion Latency (ms)": [110, 115, 108, 112, 105, 118, 110, 109, 114, 110],
+        "Reasoning Latency (ms)": [680, 720, 650, 690, 710, 670, 680, 695, 660, 680],
+        "Deliverable Latency (ms)": [820, 810, 840, 830, 800, 825, 820, 815, 835, 820]
+    }).set_index("Execution Cycle")
+
+    # Display Streamlit Line Chart
+    st.line_chart(time_series_data)
 
 # -----------------------------------------------------------------------------
 # TAB 2: TOPOLOGY (GRAPHVIZ INTERACTIVE GRAPH)
