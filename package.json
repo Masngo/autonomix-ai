@@ -1,0 +1,31 @@
+{
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "typescript": "^7.0.2"
+  },
+  "name": "autonomix-ai",
+  "version": "1.0.0",
+  "description": "An autonomous, multi-agent operational engine designed to power end-to-end business workflows, customer onboarding, and service execution on Google Cloud.",
+  "main": "index.js",
+  "dependencies": {
+    "@circle-fin/developer-controlled-wallets": "^10.8.0",
+    "dotenv": "^17.4.2",
+    "undici-types": "^8.3.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "create-wallet": "node --env-file=.env create-wallet.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Masngo/autonomix-ai.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Masngo/autonomix-ai/issues"
+  },
+  "homepage": "https://github.com/Masngo/autonomix-ai#readme"
+}
