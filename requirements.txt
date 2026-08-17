@@ -1,4 +1,3 @@
 streamlit
-pandas
-numpy
-graphviz
+python-dotenv
+requests
